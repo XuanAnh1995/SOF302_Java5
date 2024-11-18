@@ -20,10 +20,6 @@
             transform: scale(1.05);
             transition: transform 0.3s ease;
         }
-        <style>
-         body {
-             background-color: #f8f9fa;
-         }
 
         /* Tùy chỉnh nút điều hướng của carousel */
         .carousel-control-prev-icon,
@@ -62,7 +58,6 @@
         }
     </style>
 
-    </style>
     <title>Buoi 2</title>
 </head>
 

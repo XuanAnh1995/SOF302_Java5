@@ -10,7 +10,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String showMain(Model model, HttpSession session){
-        if (session.getAttribute("loggedInUser") == null) {
+        if (session.getAttribute("user") == null) {
             return "redirect:/login"; // Chuyển hướng về trang đăng nhập
         }
         return "main";

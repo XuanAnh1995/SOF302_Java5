@@ -12,7 +12,7 @@ public class Interceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         HttpSession httpSession = request.getSession();
-        if (httpSession.getAttribute("loggedInUser") == null){
+        if (httpSession.getAttribute("user") == null) {
             response.sendRedirect("/login");
             return false;
         }

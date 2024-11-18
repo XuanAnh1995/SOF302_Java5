@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Controller
 public class LoginController {
-@Autowired
+    @Autowired
     NhanVienRepository repoNV;
 
     @GetMapping("/login")
@@ -29,12 +29,14 @@ public class LoginController {
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             Model model,
-            HttpSession session) {
-// kiem tra usernam va passsword
-        if(username.isEmpty()){
+            HttpSession session)
+    {
+        // kiem tra usernam va passsword
+        if (username.isEmpty()) {
             model.addAttribute("errorMessage", "Khong de trong ten dang nhap");
             return "login";  // Quay lại trang login với thông báo lỗi
-        } if(password.isEmpty()){
+        }
+        if (password.isEmpty()) {
             model.addAttribute("errorMessage", "Khong de trong mat khau");
             return "login";
         }
@@ -45,16 +47,14 @@ public class LoginController {
                 .findFirst();
 
 
-
         if (first.isPresent()) {
             session.setAttribute("user", first.get());  // Lưu thông tin người dùng vào session
-            return "redirect:/main";  // Chuyển hướng đến trang dashboard hoặc trang chủ
+            return "/main";  // Chuyển hướng đến trang dashboard hoặc trang chủ
         } else {
 
             model.addAttribute("errorMessage", "Invalid username or password");
             return "login";  // Quay lại trang login với thông báo lỗi
         }
-
 
 
     }
