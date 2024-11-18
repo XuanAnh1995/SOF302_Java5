@@ -77,18 +77,18 @@
     <form action="/login" method="post">
         <div>
             <label for="username">Tên đăng nhập:</label>
-            <input type="text" name="username" id="username" required>
+            <input type="text" name="username" id="username" >
         </div>
         <div>
             <label for="password">Mật khẩu:</label>
-            <input type="password" name="password" id="password" required>
+            <input type="password" name="password" id="password" >
         </div>
         <button type="submit">Đăng Nhập</button>
     </form>
     <!-- Hiển thị thông báo lỗi nếu có -->
-    <c:if test="${not empty errorMessage}">
+
         <div class="error-message">${errorMessage}</div>
-    </c:if>
+
 </div>
 </body>
 </html>
