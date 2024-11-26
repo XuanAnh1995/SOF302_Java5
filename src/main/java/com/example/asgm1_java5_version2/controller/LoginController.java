@@ -49,9 +49,8 @@ public class LoginController {
 
         if (first.isPresent()) {
             session.setAttribute("user", first.get());  // Lưu thông tin người dùng vào session
-            return "/main";  // Chuyển hướng đến trang dashboard hoặc trang chủ
+            return "main";  // Chuyển hướng đến trang dashboard hoặc trang chủ
         } else {
-
             model.addAttribute("errorMessage", "Invalid username or password");
             return "login";  // Quay lại trang login với thông báo lỗi
         }
