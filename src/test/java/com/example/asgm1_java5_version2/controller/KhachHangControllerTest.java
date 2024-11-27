@@ -10,11 +10,13 @@ import static org.testng.Assert.*;
 public class KhachHangControllerTest {
 
     @Autowired
-    private KhachHangController khachHangController;
+    KhachHangController khachHangController;
 
     @BeforeMethod
     public void setUp() {
-        khachHangController = new KhachHangController();
+        //đăng nhập
+        //lấy link -> nhập user -> nhập pass ->
+        //lấy link khachhang/show
     }
 
     @AfterMethod
@@ -22,8 +24,11 @@ public class KhachHangControllerTest {
         khachHangController = null;
     }
 
-    @Test
+    @Test //add
     public void testShowFormAdd() {
+        //lấy xpath của nút add -> click
+        // thêm các trường dự liệu
+        //click btn Add
 
     }
 
