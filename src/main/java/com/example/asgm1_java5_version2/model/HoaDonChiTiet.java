@@ -38,4 +38,6 @@ public class HoaDonChiTiet {
     @JoinColumn(name = "idHoaDon", referencedColumnName = "id")
     private HoaDon hoaDon;
 
+    public HoaDonChiTiet(int id, int soLuong, double donGia, boolean trangThai, int i, int i1) {
+    }
 }
