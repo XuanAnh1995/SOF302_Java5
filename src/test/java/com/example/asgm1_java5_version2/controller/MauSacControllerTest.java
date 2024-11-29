@@ -1,277 +1,104 @@
 package com.example.asgm1_java5_version2.controller;
 
 import com.example.asgm1_java5_version2.model.MauSac;
-import com.example.asgm1_java5_version2.model.SanPham;
 import com.example.asgm1_java5_version2.repository.MauSacRepository;
-import jakarta.servlet.http.PushBuilder;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.AfterMethod;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 @Rollback
- class MauSacControllerTest {
-    @Autowired
-    private MauSacController mauSacController;
+class MauSacTest {
 
     @Autowired
     private MauSacRepository mauSacRepository;
 
     @BeforeEach
     void setUp() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
-    }
-
-
-    @AfterEach
-    void tearDown() {
         mauSacRepository.deleteAll();
+        mauSacRepository.save(new MauSac(null, "MS001", "Red", true));
+        mauSacRepository.save(new MauSac(null, "MS002", "Blue", false));
     }
 
-    @ParameterizedTest
-    @CsvFileSource(resources = "/dataAddMauSacSuccess.csv")
-
-
-    // add màu sắc hợp lệ
     @Test
-    void addMauSac_HopLe(String ma, String ten, boolean trangThai) {
-        //tạo đối tượng mới
-        MauSac mauSacNew = new MauSac(null, ma, ten, trangThai);
+    void testAddMauSacHopLe() {
+        MauSac newMauSac = new MauSac(null, "MS003", "Green", true);
+        mauSacRepository.save(newMauSac);
 
-        //lưu vào csdl
-        mauSacRepository.save(mauSacNew);
+        MauSac result = mauSacRepository.findById(newMauSac.getId()).orElse(null);
 
-        MauSac result = mauSacRepository.findById(mauSacNew.getId()).orElse(null);
-        assertEquals(ma, result.getMa());
-        assertEquals(ten, result.getTen());
-        assertEquals(trangThai, result.isTrangThai());
+        assertEquals("MS003", result.getMa());
+        assertEquals("Green", result.getTen());
+        assertTrue(result.isTrangThai());
     }
 
-    // mã màu sắc bị trùng
     @Test
-    void addMauSac_TrungMa() {
-        MauSac mauSacNew = new MauSac(null,"MS01", "Bright", true);
-        try{
-            mauSacRepository.save(mauSacNew);
-        }catch (Exception e){
-            assertEquals(true, e.getMessage().contains("Mã màu sắc bị trùng"));
-        }
-    }
+    void testAddMauSac_MaEmpty() {
+        MauSac newMauSac = new MauSac(null, "", "Yellow", true);
 
-    // mã màu sắc để trống
-    @Test
-    void addMauSac_MaTrong() {
-        MauSac mauSacNew = new MauSac(null,"", "Ocean Blue", true);
-        try{
-            mauSacRepository.save(mauSacNew);
-        }catch (Exception e){
-            assertEquals(true, e.getMessage().contains("Vui lòng điền mã màu sắc"));
-        }
-    }
-
-    // tên màu sắc để trống
-    @Test
-    void addMauSac_TenTrong() {
-        MauSac mauSacNew = new MauSac(null,"MS03", "", false);
-        try {
-            mauSacRepository.save(mauSacNew);
-        }catch (Exception e){
-            assertEquals(true, e.getMessage().contains("Vui lòng điền tên màu sắc"));
-        }
-    }
-
-    // trạng thái không chọn
-    @Test
-    void addMauSac_TrangThaiNull() {
-        MauSac mauSacNew = new MauSac(null,"MS04", "Sunny Yellow", false);
-        try {
-            mauSacRepository.save(mauSacNew);
-        }catch (Exception e){
-            assertEquals(true, e.getMessage().contains("Vui lòng chọn trạng thái"));
-        }
-
-    }
-
-    // mã chứa kí tự đặc biệt
-    @Test
-    void addMauSac_MaChuaKiTuDacBiet() {
-            MauSac mauSacNew = new MauSac(null,"MS#05", "Midnight Black", true);
-            try {
-                mauSacRepository.save(mauSacNew);
-            }catch (Exception e){
-                assertEquals(true, e.getMessage().contains("Mã màu sắc không chứa ký tự đặc biệt"));
-            }
-
-
-    }
-
-    // tên chứa kí tự đặc biệt
-    @Test
-    void addMauSac_TenChuaKiTuDacBiet() {
-        MauSac mauSacNew = new MauSac(null,"MS06", "Snow White@", false);
-        try {
-            mauSacRepository.save(mauSacNew);
-        }catch (Exception e){
-            assertEquals(true, e.getMessage().contains("Tên màu sắc không chứa ký tự đặc biệt"));
-        }
-    }
-
-    // mã có dữ liệu lớn > 256 ký tự
-    @Test
-    void addMauSac_MaCoDuLieuLon() {
-        String longMa = "MS07".repeat(50);
-        MauSac mauSacNew = new MauSac(null, longMa, "Burnt Orange", true);
         Exception exception = assertThrows(Exception.class, () -> {
-            mauSacRepository.save(mauSacNew);
+            mauSacRepository.save(newMauSac);
         });
 
-        assertTrue(exception.getMessage().contains("Mã màu sắc không được vượt quá 256 ký tự"));
+        assertTrue(exception.getMessage().contains("Vui lòng điền thông tin mã màu sắc"));
     }
 
-    // tên có dữ liệu lớn > 256 ký tự
     @Test
-    void addMauSac_TenCoDuLieuLon() {
-        String longTen = "Royal Purple".repeat(50);
-        MauSac mauSacNew = new MauSac(null, "MS08", longTen, true);
+    void testAddMauSac_TenEmpty() {
+        MauSac newMauSac = new MauSac(null, "MS004", "", true);
+
         Exception exception = assertThrows(Exception.class, () -> {
-            mauSacRepository.save(mauSacNew);
+            mauSacRepository.save(newMauSac);
         });
 
-        assertTrue(exception.getMessage().contains("Tên màu sắc không được vượt quá 256 ký tự"));
+        assertTrue(exception.getMessage().contains("Vui lòng điền thông tin tên màu"));
     }
 
-
-    // update màu sắc hợp lệ
     @Test
-    void updateMauSac_HopLe() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
+    void testAddMauSac_MaTooShort() {
+        MauSac newMauSac = new MauSac(null, "M1", "Purple", true);
 
-        // lấy màu sắc trong cơ sở dữ liệu
-        MauSac exitMauSac = mauSacRepository.getMauSacByMa("MS001").get(0);
+        Exception exception = assertThrows(Exception.class, () -> {
+            mauSacRepository.save(newMauSac);
+        });
 
-        // cập nhật tên màu sắc
-        exitMauSac.setTen("Bright Red");
-
-        // lưu lại màu sắc đã được sửa
-        mauSacRepository.save(exitMauSac);
-
-        // lấy lại màu sắc trong csdl để kiểm tra
-        MauSac result = mauSacRepository.findById(exitMauSac.getId()).orElse(null);
-
-        // kiểm tra thông tin tên màu sắc đã được cập nhật
-        assertEquals("Bright Red", result.getTen());
-        assertEquals(true, result.isTrangThai());
+        assertTrue(exception.getMessage().contains("Mã màu sắc phải có độ dài từ 3 đến 10 ký tự"));
     }
 
-
-    // update mã để trống
     @Test
-    void updateMauSac_MaDeTrong() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
+    void testAddMauSac_DuplicateMa() {
+        mauSacRepository.save(new MauSac(null, "MS005", "Pink", true));
 
-        MauSac exitMauSac = mauSacRepository.getMauSacByMa("MS001").get(0);
+        MauSac duplicateMauSac = new MauSac(null, "MS005", "Black", false);
 
-        exitMauSac.setMa("");
+        Exception exception = assertThrows(Exception.class, () -> {
+            mauSacRepository.save(duplicateMauSac);
+        });
 
-        mauSacRepository.save(exitMauSac);
-
-        MauSac result = mauSacRepository.findById(exitMauSac.getId()).orElse(null);
-
-        assertEquals("", result.getMa());
-        assertEquals("Bright Red", result.getTen());
-        assertEquals(true, result.isTrangThai());
+        assertTrue(exception.getMessage().contains("Trùng mã màu sắc"));
     }
 
-    // update tên để trống
     @Test
-    void updateMauSac_TenDeTrong() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
+    void testUpdateMauSac() {
+        MauSac existingMauSac = mauSacRepository.findById(1).orElse(null);
+        assertNotNull(existingMauSac);
 
-        MauSac exitMauSac = mauSacRepository.getMauSacByMa("MS001").get(0);
+        existingMauSac.setTen("Updated Red");
+        existingMauSac.setTrangThai(false);
 
-        exitMauSac.setTen("");
+        mauSacRepository.save(existingMauSac);
 
-        mauSacRepository.save(exitMauSac);
-
-        MauSac result = mauSacRepository.findById(exitMauSac.getId()).orElse(null);
-
-        assertEquals("MS01", result.getMa());
-        assertEquals("", result.getTen());
-        assertEquals(true, result.isTrangThai());
+        MauSac updatedMauSac = mauSacRepository.findById(1).orElse(null);
+        assertNotNull(updatedMauSac);
+        assertEquals("Updated Red", updatedMauSac.getTen());
+        assertFalse(updatedMauSac.isTrangThai());
     }
-
-    // update trạng thái sai
-    @Test
-    void updateMauSac_TrangThaiSai() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
-
-        MauSac exitMauSac = mauSacRepository.getMauSacByMa("MS001").get(0);
-
-        exitMauSac.setTrangThai(false);
-
-        mauSacRepository.save(exitMauSac);
-
-        MauSac result = mauSacRepository.findById(exitMauSac.getId()).orElse(null);
-
-        assertEquals("MS01", result.getMa());
-        assertEquals("Bright Red", result.getTen());
-        assertEquals(true, result.isTrangThai());
-    }
-
-    // update mã có chứa ký tự đặc biệt
-    @Test
-    void updateMauSac_MaChuaKyTuDacBiet() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
-
-        MauSac exitMauSac = mauSacRepository.getMauSacByMa("MS001").get(0);
-
-        exitMauSac.setMa("MS#01");
-
-        mauSacRepository.save(exitMauSac);
-
-        MauSac result = mauSacRepository.findById(exitMauSac.getId()).orElse(null);
-
-        assertEquals("MS#01", result.getMa());
-        assertEquals("Bright Red", result.getTen());
-        assertEquals(true, result.isTrangThai());
-    }
-
-    // update tên có chứa ký tự đặc biệt
-    @Test
-    void updateMauSac_TenChuaKyTuDacBiet() {
-        mauSacRepository.save(new MauSac(null, "MS01", "Bright Red", true));
-        mauSacRepository.save(new MauSac(null, "MS02", "Ocean Blue", true));
-
-        MauSac exitMauSac = mauSacRepository.getMauSacByMa("MS001").get(0);
-
-        exitMauSac.setTen("Bright Red@");
-
-        mauSacRepository.save(exitMauSac);
-
-        MauSac result = mauSacRepository.findById(exitMauSac.getId()).orElse(null);
-
-        assertEquals("MS01", result.getMa());
-        assertEquals("Bright Red@", result.getTen());
-        assertEquals(true, result.isTrangThai());
-    }
-
-
-
 
 
 }

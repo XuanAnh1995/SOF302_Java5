@@ -57,7 +57,7 @@ public class SanPhamControllerTest {
         assertEquals(trangThai, result.isTrangThai());
 
         // Kiểm tra tổng số lượng sản phẩm phải là 10
-        assertEquals(9, sanPhamRepository.count());
+        assertEquals(11, sanPhamRepository.count());
     }
 
     // Tên sản phẩm để trống

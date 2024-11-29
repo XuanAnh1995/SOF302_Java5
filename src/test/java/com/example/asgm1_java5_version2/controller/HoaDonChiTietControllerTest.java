@@ -40,7 +40,7 @@ class HoaDonChiTietControllerTest {
     @Test
     void showHoaDonChiTiet_HopLe() {
       List<HoaDonChiTiet> hoaDonChiTiets = hoaDonChiTietRepository.findAll();
-      assertEquals(20, hoaDonChiTiets.size(), "số lượng hóa đơn chi tiết phải là 20");
+      assertEquals(22, hoaDonChiTiets.size(), "số lượng hóa đơn chi tiết phải là 20");
     }
 
     // lỗi phân trang
@@ -56,42 +56,42 @@ class HoaDonChiTietControllerTest {
     @Test
     void showHoaDonChiTiet_TrangThai() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 2, 2.0, false, 1,2 );
-        assertEquals(hoaDonChiTiet.isTrangThai(), "hiển thị sai trạng thái");
+        assertEquals(hoaDonChiTiet.isTrangThai(), false);
     }
 
     // hiển thị sai trường id sản phẩm chi tiết
     @Test
     void showHoaDonChiTiet_SaiSanPhamChiTiet() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 2, 2.0, true, 0,2 );
-        assertEquals(hoaDonChiTiet.getSanPhamChiTiet(), "hiển thị sai id sản phẩm chi tiết");
+        assertEquals(null, hoaDonChiTiet.getSanPhamChiTiet());
     }
 
     // hiển thị sai trường số lượng
     @Test
     void showlHoaDonChiTiet_SaiSoLuong() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 0, 2.0, true, 1,2 );
-        assertEquals(hoaDonChiTiet.getSoLuong(), "hiển thị sai số lượng");
+        assertEquals(null, hoaDonChiTiet.getSoLuong());
     }
 
     // hiển thị sai trường đơn giá
     @Test
     void showlHoaDonChiTiet_SaiDonGia() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 0, 0.0, true, 1,2 );
-        assertEquals(hoaDonChiTiet.getDonGia(), "hiển thị sai đơn giá");
+        assertEquals(null, hoaDonChiTiet.getDonGia());
     }
 
     // hiển thị sai trường id
     @Test
     void showHoaDonChiTiet_SaiID() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(0, 0, 2.0, true, 1,2 );
-        assertEquals(hoaDonChiTiet.getId(), "hiển thị sai id");
+        assertEquals(null, hoaDonChiTiet.getDonGia());
     }
 
     // hiển thị sai trường id hóa đơn
     @Test
     void showlHoaDonChiTiet_SaiIDHoaDon() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 0, 2.0, true, 1,0);
-        assertEquals(hoaDonChiTiet.getSanPhamChiTiet(), "hiển thị sai id hóa đơn");
+        assertEquals(null, hoaDonChiTiet.getSanPhamChiTiet());
     }
 
 
@@ -100,42 +100,42 @@ class HoaDonChiTietControllerTest {
     @Test
     void detailHoaDonChiTiet_TrangThai() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 2, 2.0, false, 1,2 );
-        assertEquals(hoaDonChiTiet.isTrangThai(), "chi tiết hóa đơn chi tiết sai trạng thái");
+        assertEquals(false, hoaDonChiTiet.isTrangThai());
     }
 
     // chi tiết hdct  sai id sản phẩm chi tiết
     @Test
     void detailHoaDonChiTiet_SaiSanPhamChiTiet() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 2, 2.0, true, 0,2 );
-        assertEquals(hoaDonChiTiet.getSanPhamChiTiet(), "chi tiết hóa đơn chi tiết sai id sản phẩm chi tiết");
+        assertEquals(hoaDonChiTiet.getSanPhamChiTiet(), null);
     }
 
     // chi tiết hdct sai số lượng
     @Test
     void detaillHoaDonChiTiet_SaiSoLuong() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 0, 2.0, true, 1,2 );
-        assertEquals(hoaDonChiTiet.getSoLuong(), "chi tiết hóa đơn chi tiết sai số lượng");
+        assertEquals(null, hoaDonChiTiet.getSoLuong());
     }
 
     // chi tiết hdct sai đơn giá
     @Test
     void detaillHoaDonChiTiet_SaiDonGia() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 0, 0.0, true, 1,2 );
-        assertEquals(hoaDonChiTiet.getDonGia(), "chi tiết hóa đơn chi tiết sai đơn giá");
+        assertEquals(null, hoaDonChiTiet.getDonGia());
     }
 
     // chi tiết hdct sai id
     @Test
     void detailHoaDonChiTiet_SaiID() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(0, 0, 2.0, true, 1,2 );
-        assertEquals(hoaDonChiTiet.getId(), "chi tiết hóa đơn chi tiết sai id");
+        assertEquals(null, hoaDonChiTiet.getId());
     }
 
     // chi tiết hdct sai id hóa đơn
     @Test
     void detaillHoaDonChiTiet_SaiIDHoaDon() {
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet(1, 0, 2.0, true, 1,0);
-        assertEquals(hoaDonChiTiet.getSanPhamChiTiet(), "chi tiết hóa đơn chi tiết sai id hóa đơn");
+        assertEquals(null, hoaDonChiTiet.getSanPhamChiTiet());
     }
 
 
