@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 @Repository
@@ -15,10 +16,12 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
 
     @Query(nativeQuery = true,
     value = "SELECT * FROM NhanVien WHERE maNV LIKE %:maNV%")
+    Optional<NhanVien> findByMaNV(String maNV);
 
     ArrayList<NhanVien> getNhanVienByMaNV(String maNV);
 
     // Thêm phương thức phân trang
 
     Page<NhanVien> findAll(Pageable pageable);
+
 }
