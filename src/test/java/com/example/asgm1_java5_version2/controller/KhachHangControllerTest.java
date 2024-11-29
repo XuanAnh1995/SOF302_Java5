@@ -41,7 +41,7 @@ class KhachHangControllerTest {
     // Test case 2: Tên khách hàng trống
     @Test
     void testAddKhachHang_EmptyName() {
-        KhachHang newKhachHang = new KhachHang(null, "", "0123456789", "KH002", true);
+        KhachHang newKhachHang = new KhachHang(null, "", "0123456789", "KH00", true);
 
         try {
             khachHangRepository.save(newKhachHang);

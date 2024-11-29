@@ -3,6 +3,7 @@ package com.example.asgm1_java5_version2.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -24,9 +25,11 @@ public class NhanVien {
 
     @Column(name = "ten")
     @NotBlank(message = "Vui lòng điền thông tin tên nhân viên")
+    @Size(max = 50, message = "Tên Nhân Viên không được vượt quá 50 ký tự")
     private String ten;
 
     @Column(name = "maNV")
+    @NotNull(message = "Thiếu Tên")
     @NotBlank(message = "Vui lòng điền thông tin mã nhân viên: NV...")
     private String maNV;
 
