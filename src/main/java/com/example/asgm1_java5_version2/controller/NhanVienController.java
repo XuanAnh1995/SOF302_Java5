@@ -38,6 +38,7 @@ public class NhanVienController {
     @GetMapping("/search")
     public String searchNhanVienByMaNV(@RequestParam("maNV") String maNV, Model model){
         ArrayList<NhanVien> resultNhanVien = nhanVienRepository.getNhanVienByMaNV(maNV);
+
         model.addAttribute("list_NhanVien", resultNhanVien);
         return "/nhanvien/show";
     }
