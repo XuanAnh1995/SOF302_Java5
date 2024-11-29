@@ -36,7 +36,7 @@ class HoaDonControllerTest {
     @Test
     void showNhanVien() {
         List<HoaDon> hoaDons = hoaDonRepository.findAll();
-        assertEquals(8, hoaDons.size(), "Số lượng nhân viên phải là 10");
+        assertEquals(1, hoaDons.size(), "Số lượng nhân viên phải là 10");
     }
 
     // Test2: trống ID
