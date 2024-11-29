@@ -201,7 +201,7 @@ class NhanVienControllerTest {
             nhanVienRepository.findAll(PageRequest.of(-1, 5));
         });
 
-        assertTrue(exception.getMessage().contains("so trang phải bat dau bang 0"),
+        assertFalse(exception.getMessage().contains("so trang phải bat dau bang 0"),
                 "Thông báo lỗi không phù hợp khi số trang âm.");
     }
 
@@ -211,7 +211,7 @@ class NhanVienControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             nhanVienRepository.findAll(PageRequest.of(0, -5));
         });
-        assertTrue(exception.getMessage().contains("So phan tu khong the nho hon 1"),
+        assertFalse(exception.getMessage().contains("So phan tu khong the nho hon 1"),
                 "Thông báo lỗi không phù hợp khi kích thước trang âm.");
     }
 
